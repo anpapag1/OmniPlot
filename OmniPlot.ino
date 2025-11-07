@@ -23,11 +23,6 @@ MultiStepper steppersControl;  // Create instance of MultiStepper
 long gotoposition[3]; // An array to store the target positions for each stepper motor
 
 void setup() {
-
-  stepper1.setMaxSpeed(2000); // Set maximum speed value for the stepper
-  stepper2.setMaxSpeed(2000);
-  stepper3.setMaxSpeed(2000);
-
   // Adding the 3 steppers to the steppersControl instance for multi stepper control
   steppersControl.addStepper(stepper1);
   steppersControl.addStepper(stepper2);
@@ -35,7 +30,7 @@ void setup() {
 }
 
 void loop() {
-  // spin();
+  // spin(1000); // Example spin movement
   omniTest();
 
 }
@@ -76,11 +71,15 @@ void GnR(int speed, int steps1, int steps2, int steps3) {
 
 }
 
-void spin() {
+void spin(int steps) {
+  stepper1.setMaxSpeed(1000); // Set maximum speed value for the stepper
+  stepper2.setMaxSpeed(1000);
+  stepper3.setMaxSpeed(1000);
+
   // Store the target positions in the "gotopostion" array
-  gotoposition[0] = 3200;  // 800 steps - full rotation with quater-step resolution
-  gotoposition[1] = 3200;
-  gotoposition[2] = 3200;
+  gotoposition[0] = steps;  // 800 steps - full rotation with quater-step resolution
+  gotoposition[1] = steps;
+  gotoposition[2] = steps;
 
   steppersControl.moveTo(gotoposition); // Calculates the required speed for all motors
   steppersControl.runSpeedToPosition(); // Blocks until all steppers are in position
