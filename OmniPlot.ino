@@ -1,28 +1,39 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 
-// Pin definitions for Motor 1 (Front)
-const int step1 = 12;
-const int dir1 = 14;
+// Pin definitions for Motor 1 (Back-Left)
+const int step1 = 16;
+const int dir1 = 17;
+const int en1 = 26;
 
-// Pin definitions for Motor 2 (Back-Left)
-const int step2 = 33;
-const int dir2 = 32;
+// Pin definitions for Motor 2 (Front)
+const int step2 = 14;
+const int dir2 = 12;
+const int en2 = 27;
 
 // Pin definitions for Motor 3 (Back-Right)
-const int step3 = 26;
-const int dir3 = 25;
+const int step3 = 25;
+const int dir3 = 33;
+const int en3 = 32;
 
 // Define the stepper motor and the pins that is connected to
-AccelStepper stepper1(1,step3, dir3); // (Typeof driver: with 2 pins, STEP, DIR)
-AccelStepper stepper2(1,step2, dir2);
-AccelStepper stepper3(1,step1, dir1);
+AccelStepper stepper1(1, step1, dir1); // (Typeof driver: with 2 pins, STEP, DIR)
+AccelStepper stepper2(1, step2, dir2);
+AccelStepper stepper3(1, step3, dir3);
 
 MultiStepper steppersControl;  // Create instance of MultiStepper
 
 long gotoposition[3]; // An array to store the target positions for each stepper motor
 
 void setup() {
+  // Set enable pins as outputs and enable the drivers (LOW = enabled)
+  pinMode(en1, OUTPUT);
+  pinMode(en2, OUTPUT);
+  pinMode(en3, OUTPUT);
+  digitalWrite(en1, LOW);
+  digitalWrite(en2, LOW);
+  digitalWrite(en3, LOW);
+
   // Adding the 3 steppers to the steppersControl instance for multi stepper control
   steppersControl.addStepper(stepper1);
   steppersControl.addStepper(stepper2);
